@@ -10,14 +10,10 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Run') {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                echo 'Running....'
+                sh 'docker run --name mariadb -ti -d -p 3306:3306 maria'
             }
         }
     }
