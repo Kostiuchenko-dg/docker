@@ -1,0 +1,73 @@
+version: '3'
+services:
+  web:
+    image: httpd
+    ports:
+      - "80:80"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
+    networks:
+      - elastic
+
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      - elastic
+
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    environment:
+      - cluster.name=elasticsearch
+      - node.name=elasticsearch
+#      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - bootstrap.memory_lock=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - opendistro_security.ssl.http.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+#      - elasticsearch:/usr/share/elasticsearch/data
+      - /home/kostiuchenko/efk/elasticsearch:/usr/share/elasticsearch/data
+#    expose:
+#      - 9200
+    ports:
+      - "9200:9200"
+    networks:
+      - elastic
+
+  kibana:
+    image: kibana:7.10.1
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - elastic
+
+volumes:
+  elasticsearch:
+
+networks:
+  elastic:
+    driver: bridge
