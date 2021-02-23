@@ -22,5 +22,13 @@ pipeline {
                 sh 'docker ps -a'
             }
         }
+        stage('cleanup'){
+            steps {
+                echo 'stop container mariadb'
+                sh 'docker stop mariadb'
+                echo 'remove container mariadb'
+                sh 'docker rm mariadb'
+            }
+        }
     }
 }
