@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 dir ('dockerfiles') {
-                    sh 'docker build . '
+                    sh 'docker build -t maria . '
                 }
             }
         }
