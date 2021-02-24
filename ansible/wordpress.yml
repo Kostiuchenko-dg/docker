@@ -3,7 +3,6 @@
   hosts: all
   become: true
   become_method: sudo
-
   tasks:
     - name: create directory
       file:
@@ -12,14 +11,13 @@
         owner: root
         group: root
         mode: 0755
-
     - name: Create docker-compose file
-      template: conf/docker-compose.yml.j2
-      dest: /opt/docker/wordpress/docker-compose.yml
-      owner: root
-      group: root
-      mode: 0644
-
+      template: 
+        src: conf/docker-compose.yml.j2
+        dest: /opt/docker/wordpress/docker-compose.yml
+        owner: root
+        group: root
+        mode: 0644
     - name: Run docker-compose
       shell: docker-compose up -d
       args:
