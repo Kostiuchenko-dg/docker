@@ -1,0 +1,39 @@
+def remote = [:]
+remote.name = "remote-server"
+remote.host = "10.0.0.38"
+remote.allowAnyHosts = true
+
+node {
+    withCredentials([sshUserPrivateKey(credentialsId: '497f7d54-ceaa-47a2-bff5-b86309084120', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'jenkins')]) {
+        remote.user = jenkins
+        remote.identityFile = identity
+        stage("docker build") {
+            steps {
+                echo 'Building..'
+                dir ('dockerfiles') {
+                    sh 'docker build -t maria . '
+                }
+            }
+        }
+        stage('Run') {
+            steps {
+                echo 'Running....'
+                sh 'docker run --name mariadb -ti -d -p 3306:3306 maria'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'testing.......'
+                sh 'docker ps -a'
+            }
+        }
+        stage('Cleanup') {
+            steps {
+                echo 'stop container mariadb'
+                sh 'docker stop mariadb'
+                echo 'remove container mariadb'
+                sh 'docker rm mariadb'
+            }
+        }
+    }
+}
