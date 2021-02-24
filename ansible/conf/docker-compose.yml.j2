@@ -24,13 +24,13 @@ services:
     image: wordpress
     container_name: wordpress0
     restart: unless-stopped
-    env_file: .env
+#    env_file: .env
     ports:
       - 8080:80
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: $MYSQL_USER
-      WORDPRESS_DB_PASSWORD: $MYSQL_PASSWORD
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - /var/www0:/var/www/html
@@ -43,13 +43,13 @@ services:
     image: wordpress
     container_name: wordpress1
     restart: unless-stopped
-    env_file: .env
+#    env_file: .env
     ports:
       - 8081:80
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: $MYSQL_USER
-      WORDPRESS_DB_PASSWORD: $MYSQL_PASSWORD
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - /var/www1:/var/www/html
