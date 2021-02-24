@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        node {
+            label "master"
+        }
+    }
+    environment {
+        WORKSPACE_PATH=pwd()
+        VERSION="${env.BUILD_NUMBER}"
+    }
+    stages {
+        stage("up infrastructure with wordpress") {
+            steps {
+                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    ansiblePlaybook become: true,
+                    credentialsId: '497f7d54-ceaa-47a2-bff5-b86309084120',
+                    disableHostKeyChecking: true,
+                    inventory: 'ansible/hosts',
+                    playbook: 'ansible/wordpress.yml',
+                    extras: '-e version=$VERSION -e date=$BUILD_TIMESTAMP'
+                }
+            }
+        }
