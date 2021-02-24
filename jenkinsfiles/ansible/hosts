@@ -1,2 +1,2 @@
 [wordpress]
-10.0.0.38
+10.0.0.38 ansible_user=jenkins
