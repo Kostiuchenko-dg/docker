@@ -9,7 +9,7 @@ node {
         remote.identityFile = identity
         stage("docker build") {
           sshCommand remote: remote, command: "echo 'testing.....'"
-          sshCommand remote: remote, command: "sudo sh 'docker ps -a'"
+          sshCommand remote: remote, command: "sudo docker ps -a"
         }
 //         stage('Run') {
 //           echo 'Running....'
