@@ -24,3 +24,5 @@
         chdir: /opt/docker/wordpress/
     - name: docker status
       shell: docker ps -a
+    - name: docker status
+      shell: docker ps
