@@ -21,5 +21,11 @@ pipeline {
                 }
             }
         }
+        stage("test running") {
+            steps {
+                echo 'testing.......'
+                sh 'docker ps -a'
+            }
+        }
     }
 }
