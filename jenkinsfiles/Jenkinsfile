@@ -27,8 +27,8 @@ node {
           echo 'remove container mariadb'
           sh 'docker rm mariadb'
         }
-        stage('Test') {
-          echo 'testing.......'
+        stage('Test2') {
+          echo 'testing again.......'
           sh 'docker ps -a'
         }
     }
