@@ -1,6 +1,6 @@
 def remote = [:]
 remote.name = "remote-server"
-remote.host = "10.0.0.39"
+remote.host = "10.0.0.38"
 remote.allowAnyHosts = true
 
 node {
@@ -8,28 +8,26 @@ node {
         remote.user = jenkins
         remote.identityFile = identity
         stage("docker build") {
-          echo 'Building..'
-          dir ('dockerfiles') {
-          sh 'docker build -t maria . '
-                }
+          sshCommand remote: remote, command: "echo 'testing.....'"
+          sshCommand remote: remote, command: "sh 'docker ps -a'"
         }
-        stage('Run') {
-          echo 'Running....'
-          sh 'docker run --name mariadb -ti -d -p 3306:3306 maria'
-        }
-        stage('Test') {
-          echo 'testing.......'
-          sh 'docker ps -a'
-        }
-        stage('Cleanup') {
-          echo 'stop container mariadb'
-          sh 'docker stop mariadb'
-//          echo 'remove container mariadb'
-//          sh 'docker rm mariadb'
-        }
-        stage('Test2') {
-          echo 'testing.......'
-          sh 'docker ps -a'
-        }
+//         stage('Run') {
+//           echo 'Running....'
+//           sh 'docker run --name mariadb -ti -d -p 3306:3306 maria'
+//         }
+//         stage('Test') {
+//           echo 'testing.......'
+//           sh 'docker ps -a'
+//         }
+//         stage('Cleanup') {
+//           echo 'stop container mariadb'
+//           sh 'docker stop mariadb'
+// //          echo 'remove container mariadb'
+// //          sh 'docker rm mariadb'
+//         }
+//         stage('Test2') {
+//           echo 'testing.......'
+//           sh 'docker ps -a'
+//         }
     }
 }
