@@ -22,3 +22,5 @@
       shell: docker-compose up -d
       args:
         chdir: /opt/docker/wordpress/
+    - name: docker status
+      shell: docker ps -a
