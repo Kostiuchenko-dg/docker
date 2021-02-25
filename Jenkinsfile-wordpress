@@ -21,20 +21,5 @@ pipeline {
                 }
             }
         }
-        stage("test running") {
-            steps {
-                script {
-                    def remote = [name: 'test', host: '10.0.0.38', allowAnyHosts: true]
-                    withCredentials([sshUserPrivateKey(credentialsId: '497f7d54-ceaa-47a2-bff5-b86309084120', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'jenkins')]){
-                        remote.user = jenkins
-                        remote.identityFile = identity
-                        stage("test") {
-                           sshCommand remote: remote, command: "echo 'testing.....'"
-                           sshCommand remote: remote, command: "sh 'docker ps -a'"
-                    }
-                }
-            }
-        }
-    }
     }
 }
