@@ -30,5 +30,11 @@ pipeline {
                 sh 'docker rm mariadb'
             }
         }
+        stage('Test') {
+            steps {
+                echo 'testing.......'
+                sh 'docker ps -a'
+            }
+        }
     }
 }
