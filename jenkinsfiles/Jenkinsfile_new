@@ -1,0 +1,13 @@
+def remote = [:]
+withEnv(readFile('env.txt').split('\n') as List)
+
+node {
+    withCredentials([sshUserPrivateKey(credentialsId: '497f7d54-ceaa-47a2-bff5-b86309084120', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'jenkins')]) {
+        remote.user = jenkins
+        remote.identityFile = identity
+        stage("docker build") {
+          sshCommand remote: remote, command: "echo 'testing.....'"
+          sshCommand remote: remote, command: "sudo docker ps -a"
+        }
+    }
+}
